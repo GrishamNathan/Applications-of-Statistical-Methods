@@ -1,0 +1,40 @@
+/*4.*/
+/*f) */
+filename myurl url "http://www.utsc.utoronto.ca/~butler/c32/forehead.txt";
+
+proc import
+	datafile=myurl
+	dbms=dlm
+	out=forehead
+	replace;
+	delimiter=' ';
+	getnames=yes;
+
+proc print data=forehead;
+
+/*g)*/
+proc npar1way median;
+	var score;
+	class group;
+
+/*5.*/
+/*a)*/
+filename myurl url "http://www.utsc.utoronto.ca/~butler/c32/movie-lengths.csv";
+
+proc import
+	datafile=myurl
+	dbms=csv
+	out=movie
+	replace;
+	getnames=yes;
+
+proc means n;
+	var length;
+	class rating;
+
+/*b)*/
+
+proc anova;
+	class rating;
+	model length=rating;
+	means rating / tukey;

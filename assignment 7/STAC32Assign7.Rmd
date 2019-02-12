@@ -1,0 +1,64 @@
+---
+title: "Assignment 7"
+author: "Grisham Nathan"
+date: "November 4, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##8.
+#a)
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/movie-lengths.csv"
+movie=read_csv(url)
+movie %>% group_by(rating) %>% summarize(count=n(), median=median(length))
+```
+
+#b)
+```{r}
+ggplot(data=movie,aes(x=rating, y=length)) +geom_boxplot()
+```
+
+It is not reasonable to run ANOVA here because the data is not normally distributed. We conclude this from the existence of outliers and the unequal whiskers in the boxplots.
+
+#c)
+```{r}
+library(devtools)
+install_github("nxskok/smmr")
+library(smmr)
+median_test(movie,length,rating)
+```
+Given the small p-value, I conclude that the data being above/below overall median depends on the rating.At least one of the ratings has a median that is different from the others.
+
+
+##Analysis of Two Measurement Methods for the Atomic Weight of Carbon
+
+#Introduction
+The purpose of this study is to find out whether the two methods have different mean or median of the atomic weight of carbon. Each obeservation of data specifies the method of measurement and the atomic weight of the carbon using that method of measurement.
+
+#Data Output and Analysis
+```{r}
+url="http://www.utsc.utoronto.ca/~butler/c32/carbon.txt"
+carbon=read_delim(url," ")
+carbon
+carbon$method = as.character(carbon$method)
+ggplot(carbon,aes(x=method, y=weight))+geom_boxplot()
+```
+I converted the data type of the method column from numeric to characters to create this boxplot.
+I see that most of the weights in method 1 are lower than method 2 and are closer to the true atomic weight, which is 12.The medians of both methods are very close to each other.
+
+#Significance Testing of the Results
+```{r}
+t.test(weight~method, data = carbon)
+median_test(carbon,weight,method)
+```
+
+From conducting the t-test, we see that there is a large p-value. As a result, we accept our null hypothesis that the mean weight of method 1 is equal to mean weight of method 2.
+
+Assuming that our data is not normally-distributed, the Mood's Median test is now conducted. From the test, we see that there is a large p-value. Therefore, we accept the null hypothesis that the median weight of method 1 is equal to median weight of method 2.
+
+The hypothesis tests which have been conducted, indicate that there is statistical association between method 1 and method 2. As a result, our analysis should be sound and reasonable. 

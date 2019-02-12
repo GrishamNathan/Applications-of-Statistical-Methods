@@ -1,0 +1,59 @@
+---
+title: 'Assignment #5'
+author: "Grisham Nathan"
+date: "October 18, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+##8.
+
+#e)
+
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/sunspots.txt"
+sunspots=read_delim(url," ")
+sunspots %>% slice(1:10)
+```
+
+#f)
+```{r}
+sunspots %>% summarize(mean=mean(spots), median=median(spots))
+```
+The mean and median are the same as the ones I calculated in SAS.
+
+#g)
+```{r}
+library(devtools)
+install_github("nxskok/smmr")
+library(smmr)
+sign_test(sunspots,spots,41)
+#or
+#pval_sign(41,sunspots,spots)
+```
+I got the same sign test p-value of 0.8746293 just like in SAS.
+
+#h)
+```{r}
+ci_median(sunspots,spots,conf.level=0.90)
+```
+(25.70298, 53.99511) is the 90% confidence interval for the median.
+
+##9.
+#e)
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/heights.txt"
+heights=read_delim(url," ")
+heights
+```
+#f)
+```{r}
+with(heights,t.test(reported,measured,paired=T))
+```
+In SAS, I got a p-value of 0.0101, however in R, I got a p-value of 0.01009. I believe the p-value of SAS has been rounded up to nearest 4 decimals. As a result, the p-values are definitely the same.

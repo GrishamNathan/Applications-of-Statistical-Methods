@@ -1,0 +1,22 @@
+filename myurl url "http://www.utsc.utoronto.ca/~butler/c32/to-school.csv";
+
+proc import
+	datafile=myurl
+	dbms=csv
+	out=mydata
+	replace;
+	getnames=yes;
+
+proc print;
+	
+proc means n mean QRANGE;
+	var traveltime;
+	class location;
+
+proc sgplot;
+	vbox traveltime / category=location;
+
+proc ttest;
+	var traveltime;
+	class location;
+

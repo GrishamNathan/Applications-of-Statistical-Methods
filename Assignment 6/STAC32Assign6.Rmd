@@ -1,0 +1,63 @@
+---
+title: 'Assignment #6'
+author: "Grisham Nathan"
+date: "October 23, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(devtools)
+install_github("nxskok/smmr")
+library(smmr)
+```
+
+##4.
+#a)
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/forehead.txt"
+forehead=read_delim(url," ")
+forehead %>% slice(1:10)
+```
+
+#b)
+```{r}
+ggplot(forehead,aes(x=group,y=score))+geom_boxplot()
+#ggplot(forehead,aes(sample=score))+stat_qq()+facet_wrap(~group)
+```
+
+#c)
+
+Their is an outlier in each group and the boxplot for each group is not symmetric. As a result, this violates the assumption of the t-test that data must be normally distributed. As a result, we can conclude that our two-sample t-test is not valid.
+
+
+#d)
+```{r}
+m=median(forehead$score)
+m
+tab=with(forehead,table(group,score>m))
+tab
+chisq.test(tab,correct=F)
+```
+Given the small p-value, I conclude that the data being above/below overall median depends on the group.Both groups have different medians.I recommend that the video be watched at 8:30 am.
+
+
+#e)
+```{r}
+median_test(forehead,score,group)
+```
+I got the same answer as d)
+
+##5.
+#d)
+```{r}
+url="http://www.utsc.utoronto.ca/~butler/c32/movie-lengths.csv"
+movie=read_csv(url)
+movie.aov=aov(length~rating, data=movie)
+summary(movie.aov)
+TukeyHSD(movie.aov)
+```

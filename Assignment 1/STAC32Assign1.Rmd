@@ -1,0 +1,52 @@
+---
+title: 'STAC32 Assignment #1'
+author: "Grisham Nathan 1001314927"
+date: "September 14, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#a)
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/global.csv"
+input=read_csv(url)
+input 
+```
+Reads data from the CSV file from the URL and stores in variable. 
+Afterwards, it is then outputted in a data frame.
+The data frame has 10 rows and 3 columns.
+
+
+#b)
+```{r}
+ggplot(input,aes(x=size,y=cost))+geom_point()
+```
+Creates scatterplot using the data frame, using the size column as the x-axis and the cost as my y-axis.
+The points are added according to corresponding size and cost of each observation.
+
+#c)
+There is a positive relationship between size and cost. As
+size increases, cost also increases. 
+
+The trend appears to go from bottom left to top right.   
+A straight regression line would describe the trend 
+appropriately, however their are some points that 
+slightly deviate from the regression line.
+
+#d)
+ggplot(input,aes(x=size,y=cost,colour=warehouse))+geom_point()
+
+I think size determines which warehouse an incoming shipment goes to. From the data given and the scatterplot I created, the largest shipment to warehouse A is 225000 parts and the smallest shipment to warehouse B is 290000 parts. It seems that whether a shipment has more or less than a certain number of parts (Definitely between 225000 and 290000 parts), is what determines which warehouse the shipment goes.
+
+As a result, we can infer that products below this specified limit goes to warehouse A and products above this specified limit go to warehouse B. 
+
+
+
+
+
+
+ 

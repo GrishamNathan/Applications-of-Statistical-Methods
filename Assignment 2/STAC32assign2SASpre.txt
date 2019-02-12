@@ -1,0 +1,23 @@
+filename myurl url "http://www.utsc.utoronto.ca/~butler/c32/corollas.txt";
+
+proc import
+	datafile=myurl
+	dbms=dlm
+	out=toyota
+	replace;
+	delimiter=' ';
+	getnames=yes;
+
+proc print data=toyota;
+
+proc sgplot;
+	scatter x=age y=price;
+	loess x=age y=price;
+
+
+proc means mean stddev;
+	var age;
+	var price;
+
+proc means median qrange;
+	var price;

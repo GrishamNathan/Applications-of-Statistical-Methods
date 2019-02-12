@@ -1,0 +1,57 @@
+---
+title: "Assignment 3"
+author: "Grisham Nathan 1001314927"
+date: "September 24, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#A)
+```{r}
+library(tidyverse)
+myurl = "http://www.utsc.utoronto.ca/~butler/c32/hg.txt" 
+mydata = read_delim(myurl, " ") 
+mydata
+```
+
+I have the correct variables.Just as used as column names in the hg.txt, the variables are name and density. 13 hunter-gatherer societies in Australia were studied, as there are 13 rows.
+
+#B)
+
+Let h0 be h not which is the null hypothesis
+Let hA be the alternative hypothesis
+let u be mu which is the mean 
+
+We have h0: u = 7.38 which means the mean density of the socities match the rest of the world
+We have hA: u =/= 7.38 mean the mean population density is not the same
+
+#C)
+```{r}
+t.test(mydata$density, mu=7.38)
+```
+I tested the hypotheses using one sample t-test. 
+The P-value is 0.002257.
+Since p-value is lower than 0.05, we will reject null hypothesis.
+
+
+#D)
+```{r}
+mybins = ceiling(log(13,2))+1
+ggplot(mydata,aes(x=density))+geom_histogram(bins=mybins)
+qqnorm(mydata$density)
+qqline(mydata$density)
+```
+It is noticable that the histogram is skewed as it decreases to the right.
+We know that if the histogram of the data accuretly follows a normal distributions
+our p-value is good and we cannot reject the H0. Therefore in this case
+it is very far from being a proper normal distribution hence the p value will also be off
+so we can reject H0.I do not have doubts of the validity of the test. 
+
+
+
+
+
+

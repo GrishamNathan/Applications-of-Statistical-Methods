@@ -1,0 +1,45 @@
+---
+title: 'STAC32 Assignment #2'
+author: "Grisham Nathan 1001314927"
+date: "September 17, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##6.
+
+#a)
+```{r}
+library(tidyverse)
+url="http://www.utsc.utoronto.ca/~butler/c32/compatt.txt"
+input=read_delim(url," ")
+input 
+```
+
+
+
+#b)
+```{r}
+input %>% count(gender)
+```
+
+
+#c)
+```{r}
+ggplot(input,aes(x=gender,y=CAS))+geom_boxplot()
+```
+
+
+#d)
+```{r}
+input %>% group_by(gender) %>% summarize(med=median(CAS))
+```
+
+#e)
+```{r}
+input %>% summarize_if(is.numeric, funs(mean, sd))
+```
+

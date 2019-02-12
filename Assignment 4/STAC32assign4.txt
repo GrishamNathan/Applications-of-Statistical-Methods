@@ -1,0 +1,23 @@
+6a)
+proc power;
+twosamplemeans
+	test=diff_satt
+	sides=1
+	meandiff=10
+	groupstddevs=16|16
+	groupns=25|25
+	power=.;
+
+It is 70.3% likely that we correctly reject a null hypothesis that the treatment and control means are equal.
+
+b)
+proc power;
+twosamplemeans
+	test=diff_satt
+	sides=1
+	meandiff=10
+	groupstddevs=16|16
+	ntotal=.
+	power=0.8;
+
+The total size that would be needed is 66. This means that their will be 33 in each of the two samples.

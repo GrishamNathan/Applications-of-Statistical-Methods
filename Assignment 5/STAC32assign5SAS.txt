@@ -1,0 +1,47 @@
+8.
+a)
+filename myurl url
+	"http://www.utsc.utoronto.ca/~butler/c32/sunspots.txt";
+proc import
+	datafile=myurl
+	dbms=dlm
+	out=sunspots
+	replace;
+	delimiter=' ';
+	getnames=yes;
+
+proc print data=sunspots;
+
+proc means mean median;
+	var spots;
+
+b)
+proc sgplot;
+	histogram spots;
+c)
+proc univariate location=41;
+	var spots;
+
+d)
+
+9.
+a)
+filename myurl url
+	"http://www.utsc.utoronto.ca/~butler/c32/heights.txt";
+proc import
+	datafile=myurl
+	dbms=dlm
+	out=heights
+	replace;
+	delimiter=' ';
+	getnames=yes;
+
+proc print data=heights;
+
+b)
+
+c)
+proc ttest;
+	paired reported*measured;
+
+d)

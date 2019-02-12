@@ -1,0 +1,55 @@
+---
+title: "Assignment #4"
+author: "Grisham Nathan 1001314927"
+date: "October 4, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##5.
+
+#a)
+```{r}
+library(tidyverse)
+x=rnorm(10,20,2)
+x
+```
+The values do look reasonable because they tend to be around the mean 20.
+
+#b)
+```{r}
+sim=function(null_mu,ssize,true_mu,SD){
+  x=rnorm(ssize,true_mu,SD)
+  t.test(x,mu=null_mu)$p.value
+}
+```
+Function that generates random normal distribution samples and conducts a two sided t-test of the input null mean. A p-value is returned from the t-test.
+
+#c)
+```{r}
+  pvals=replicate(1000,sim(20,10,20,2))
+  answer = head(pvals)
+```
+Simulates t-test 1000 times.
+
+#d)
+```{r}
+  table(pvals<=0.05)
+```
+The test correctly rejects around 0.05 of the replications. Since significance level is 0.05, it does make sense that the null hypothesis is true. Significance level is the probability of making a type 1 error or rejecting the null hypothesis when it is actually true.
+
+#e)
+```{r}
+  pvals2=replicate(1000,sim(20,10,22,2))
+  table(pvals2<=0.05)
+```
+Estimated power is 0.806.
+  
+#f)
+```{r}
+  power.t.test(n=10,delta=-2,sd=2,type="one.sample")
+```  
+Estimated power is 0.003 more than exact power.

@@ -1,0 +1,96 @@
+---
+title: "Assignment 8"
+author: "Grisham Nathan"
+date: "November 15, 2017"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#11
+#a)
+```{r}
+library(tidyverse)
+url="http://stat405.had.co.nz/data/billboard.csv"
+billboard=read_csv(url)
+billboard
+```
+
+#b)
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T)
+```
+I have fewer columns after converting the columns from before. I have alot more rows because each song must indicate each week and the corresponding rank of the week.
+
+#c)
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T) %>% select(Week,Rank) %>% head
+```
+
+#d)
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T) %>% mutate(Week_numeric=parse_number(Week), Rank_numeric=as.numeric(Rank)) %>% select(Week_numeric, Rank_numeric)
+```
+
+#e)
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T) %>% mutate(Week_numeric=parse_number(Week), Rank_numeric=as.numeric(Rank)) %>% mutate(current=parse_date(date.entered)+(Week_numeric-1)*7) %>% select(date.entered, Week_numeric, current)
+```
+
+#f)
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T) %>% mutate(Week_numeric=parse_number(Week), Rank_numeric=as.numeric(Rank)) %>% mutate(current=parse_date(date.entered)+(Week_numeric-1)*7) %>% filter(Rank_numeric == 1) %>% select(artist.inverted, track,current) %>% arrange(current)
+```
+
+#g) 
+```{r}
+billboard %>% gather(Week,Rank,x1st.week:x76th.week,na.rm=T) %>% mutate(Week_numeric=parse_number(Week), Rank_numeric=as.numeric(Rank)) %>% mutate(current=parse_date(date.entered)+Week_numeric*7-1) %>% filter(Rank_numeric == 1) %>% group_by(artist.inverted,track) %>% count(track)%>% arrange(desc(n)) %>% head(1)
+```
+
+##12)
+#a)
+```{r}
+url = "http://www.utsc.utoronto.ca/~butler/c32/pinetrees.txt"
+pine=read_delim(url, " ")
+pine
+```
+
+#b)
+```{r}
+ggplot(pine,aes(x=diameter, y=volume)) + geom_point()
+```
+
+#c)
+There is positive relationship between diameter and volume. As diameter of tree increases, the volume of tree also increases.
+
+#d)
+```{r}
+reg=lm(volume~diameter,pine)
+summary(reg)
+```
+R-Squared is 0.9585, which means there is a very strong positive linear relationship between diameter and volume.
+
+#e)
+```{r}
+ggplot(reg,aes(x=.fitted,y=.resid))+geom_point() +geom_smooth(se=F)
+```
+I do not trust the linearity of this regression. The residual plot does not show a straight line more or less at 0. As a result, we conclude that linear regression is not suitable for modeling the relationship between diameter and volume.
+
+#f)
+The volume of a tree of diameter of zero should be 0.No it is not what the regression predicts. According to my regression, when diameter is 0, volume is -191.749. Volume is suppose to be zero when diameter is 0.
+
+#g)
+
+cone_volume = (pi*((d/2)^2)*h)/3
+
+where h = height and d = diameter
+
+#h) 
+```{r}
+h=2
+cone_volume = (pi*((pine$diameter/2)^2)*h)/3
+reg_cone=lm(cone_volume~I((pine$diameter)^2))
+summary(reg_cone)
+```

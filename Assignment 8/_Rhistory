@@ -1,0 +1,21 @@
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+url="http://stat405.had.co.nz/data/billboard.csv"
+billboard=read_csv(url)
+billboard
+rm(billboard)
+url = "http://www.utsc.utoronto.ca/~butler/c32/pinetrees.txt"
+pine=read_delim(url, " ")
+pine
+ggplot(pine,aes(x=diameter, y=volume)) + geom_point()
+reg=lm(volume~diameter,pine)
+summary(reg)
+h=2
+cone_volume = (pi*((pine$diameter/2)^2)*h)/3
+reg_cone=lm(cone_volume~pine$diameter)
+reg_cone=lm(cone_volume~pine$diameter)
+reg_cone=lm(cone_volume~pine$diameter)
+reg_cone
+reg_cone=lm(cone_volume~pine$diameter)
+reg_cone
+summary(reg_cone)
